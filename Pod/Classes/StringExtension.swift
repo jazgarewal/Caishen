@@ -40,9 +40,11 @@ extension String {
      
      - returns: An NSRange object that is equivalent to `range`.
      */
-    func NSRangeFrom(_ range : Range<String.Index>) -> NSRange {
+    func NSRangeFrom(_ range : Range<String.Index>) -> NSRange? {
         let utf16view = self.utf16
-        let from = String.UTF16View.Index(range.lowerBound, within: utf16view)
+        guard let from = String.UTF16View.Index(range.lowerBound, within: utf16view) else {
+            return nil
+        }
         let to = String.UTF16View.Index(range.upperBound, within: utf16view)
         return NSMakeRange(utf16view.startIndex.distance(to: from), from.distance(to: to))
     }
